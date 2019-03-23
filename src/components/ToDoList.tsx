@@ -1,33 +1,23 @@
 import React, { Component } from 'react'
 import { http } from '../utils/Http'
+import { connect } from 'react-redux';
 import { ToDo } from './ToDo'
-import { AddNewTodo } from './AddNewTodo'
+import AddNewTodo from './AddNewTodo'
 import { turnObjectIntoArray } from '../utils/utils'
+import { mapStateToProps } from '../store/containers/Todos'
 import '../App.css'
-export class ToDoList extends Component {
-  state = {
-    todos: [{
-      id: 1,
-      text: 'feed the dog',
-      isCompleted: false,
-      urgency: 0,
-      created: new Date(),
-      updated:new Date()
-    },{
-      id: 2,
-      text: 'feed the fish',
-      isCompleted: true,
-      urgency: 0,
-      created: new Date(),
-      updated:new Date()
-    }]
-  }
 
-  async componentDidMount() {
+class ToDoList extends Component {
+
+  async componentDidMount(){
     try {
+      const { dispatch }:any = this.props
       const response:any = await http.get('/todos')
       const todos:Array<object> = turnObjectIntoArray(response.todos)
-      this.setState({...this.state, todos})
+      dispatch({
+        type: 'ADD_TODO_LIST',
+        todos
+      })
     } catch (error) {
       console.log(error)
     }
@@ -35,7 +25,7 @@ export class ToDoList extends Component {
   }
 
   private renderList():JSX.Element[] {
-    const { todos } = this.state
+    const { todos }:any = this.props
     return todos.map((todo:any) => 
       <ToDo 
         key={todo.id}
@@ -49,7 +39,7 @@ export class ToDoList extends Component {
     )
   }
 
-  public render() {
+  public render():JSX.Element {
     return (
       <div className="todo-list-container">
         <div>
@@ -62,3 +52,5 @@ export class ToDoList extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(ToDoList) 

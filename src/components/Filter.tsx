@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 export class Filter extends Component {
-  render() {
+  render():JSX.Element {
     return (
       <div className="filter-container">
         <input

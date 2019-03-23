@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Store from './store';
-
+import { Routes } from './router'
 ReactDOM.render(
   <Provider store={Store}>
     <App />

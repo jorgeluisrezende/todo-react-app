@@ -13,19 +13,54 @@
   color: #fff
 }
 
+.input,.button {
+  padding: 5px;
+  padding-bottom: 3px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 4px;;
+  box-shadow: 0 1px 0 rgba(9,45,66,.25)
+}
+
+.select {
+  background: #fff
+}
+.delete {
+  position: relative;
+  float: right;
+  right: 0;
+  color: gray;
+  box-shadow: none;
+  background: none;
+  font-weight: 900;
+}
+.delete:focus {
+  outline: none;
+}
+
+.button {
+  cursor: pointer;
+}
+.reload {
+  font-size: 18px;
+}
+.confirm {
+  background: #5aac44;
+  color: white;
+  box-shadow: 0 1px 0 #3f6f21;
+}
+
+.cancel {
+  background: #eb5a46;
+  color: white;
+  box-shadow: 0 1px 0 #9e3629;
+}
 /* filter */
 .filter-container {
   display: flex;
   align-items: center;
   width: 42%;
   margin-bottom: 10px;
-}
-.filter-input {
-  width: 100%;
-  padding: 8px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 1px 0 rgba(9,45,66,.25)
 }
 
 /* add new todo */
@@ -38,13 +73,19 @@
   color: grey;
   text-align: left;
   cursor: pointer;
-  padding: 5px;
 }
 .add-new-todo:focus{
   outline: none
 }
 
 /* todo list */
+.control-buttons {
+  display:flex;
+  margin-bottom: 6px;
+}
+.control-buttons .reload {
+  margin-right: 10px;
+}
 .todo-list-container {
   background: rgb(228, 227, 227);
   width: 40%;
@@ -77,12 +118,13 @@
 
 /* todo item */
 .todo {
-  display: block;
+  display: inline-flex;
   background: #fff;
   border: 1px solid rgba(0,0,0,.06);
   box-shadow: 0 1px 0 rgba(9,45,66,.25);
   border-radius: 5px;
   width: 95%;
+  justify-content: space-between;
   padding: 5px;
   margin-bottom: 5px;
 }

@@ -1,7 +1,7 @@
 import { default as axios } from 'axios'
 import { storage } from './Storage'
+
 class HttpClient {
-  private static _instance: HttpClient;
   private sessionId:string = '';
   private baseUrl:string = 'http://localhost:9000/api';
   private axios:any;
@@ -15,14 +15,11 @@ class HttpClient {
       this.session()
       this.axios.defaults.headers['sessionId'] = this.sessionId
     }
+    this.axios.defaults.headers['Content-Type'] = 'application/json'
   }
 
   public get SessionId() : string {
     return this.sessionId
-  }
-
-  public static get Instance() {
-    return this._instance || (this._instance = new this());
   }
 
   public async session() {
@@ -43,7 +40,7 @@ class HttpClient {
       const response = await this.axios.get(endpoint)
       return response.data
     } catch (error) {
-      console.log(error.response)
+      throw error
     }
   }
 
@@ -52,8 +49,7 @@ class HttpClient {
       const response = await this.axios.post(endpoint, data)
       return response.data
     } catch (error) {
-
-      console.log(error.response)
+      throw error
     }
   }
 
@@ -62,20 +58,18 @@ class HttpClient {
       const response = await this.axios.put(`${endpoint}/${id}`, data)
       return response.data
     } catch (error) {
-      
+      throw error
     }
   }
 
-  public async delete(endpoint:string, id:string, data:object) {
+  public async delete(endpoint:string, id:string) {
     try {
-      const response = await this.axios.delete(`${endpoint}/${id}`, data)
+      const response = await this.axios.delete(`${endpoint}/${id}`)
       return response.data
     } catch (error) {
-      
+      throw error
     }
   }
 }
 
-const http = HttpClient.Instance
-
-export { http }
+export { HttpClient as http }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import  ToDoList  from './components/ToDoList';
-import { Filter } from './components/Filter';
+import { Routes } from './router';
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,8 +10,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1 className="title">To Do React APP</h1>
-        <Filter/>
-        <ToDoList />
+        <Routes />
       </div>
     );
   }

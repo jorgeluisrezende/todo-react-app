@@ -5,23 +5,29 @@ import { ToDo } from './ToDo'
 import AddNewTodo from './AddNewTodo'
 import { turnObjectIntoArray } from '../utils/utils'
 import { mapStateToProps } from '../store/containers/Todos'
+import { redirectToHome, showMessage } from '../utils/ErrorHandlers'
 import '../App.css'
 
-class ToDoList extends Component {
+class ToDoList extends Component<{ history:any }> {
+  http:any = new http()
 
-  async componentDidMount(){
+  componentDidMount(){
+    this.loadTodos()
+  }
+
+  private async loadTodos() {
     try {
       const { dispatch }:any = this.props
-      const response:any = await http.get('/todos')
+      const response:any = await this.http.get('/todos')
       const todos:Array<object> = turnObjectIntoArray(response.todos)
       dispatch({
         type: 'ADD_TODO_LIST',
         todos
       })
     } catch (error) {
-      console.log(error)
+      redirectToHome(this.props.history, error)
+      showMessage(error)
     }
-    
   }
 
   private renderList():JSX.Element[] {
@@ -42,8 +48,11 @@ class ToDoList extends Component {
   public render():JSX.Element {
     return (
       <div className="todo-list-container">
-        <div>
-          <AddNewTodo />
+        <div className="control-buttons">
+          <button className="button confirm reload" onClick={() => this.loadTodos()}>
+            <b>&#x21bb;</b>
+          </button>
+          <AddNewTodo router={this.props.history} http={this.http} />
         </div>
         <div className="todo-list">
           { this.renderList() }

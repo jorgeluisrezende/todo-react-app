@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import  ToDoList  from './components/ToDoList';
 import { Routes } from './router';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {

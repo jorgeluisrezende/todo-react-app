@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import Select from 'react-select';
 import { Todo } from '../interfaces/ToDo'
 import { mapDispatchToProps } from '../store/containers/Todos'
 import { redirectToHome, showMessage } from '../utils/ErrorHandlers'
@@ -8,7 +9,7 @@ class AddNewTodo extends Component<{ router:any, http:any }> {
   state = {
     showInput: false,
     inputValue: '',
-    urgency: 1
+    urgency: null
   }
 
   private toggleInput():void {
@@ -19,8 +20,10 @@ class AddNewTodo extends Component<{ router:any, http:any }> {
     this.setState({...this.state, inputValue:e.target.value })
   }
 
-  private getUrgency(e:any):void {
-    this.setState({ ...this.state, urgency: e.target.value })
+  private getUrgency(e:any) {
+      let urgency = e.target.options[e.target.selectedIndex].text;
+      if(urgency === 'Urgency') urgency = 1
+      this.setState({ ...this.state, urgency: parseInt(urgency) })
   }
 
   private dispatchTodo(value:Todo):void {
@@ -40,7 +43,7 @@ class AddNewTodo extends Component<{ router:any, http:any }> {
     try {
       const { http } = this.props
       const { inputValue, urgency } = this.state
-      const response = await http.post('/todos', { text: inputValue, isCompleted: false, urgency: 1 })
+      const response = await http.post('/todos', { text: inputValue, isCompleted: false, urgency: urgency })
       this.dispatchTodo(response.todo)
       this.toggleInput()
     } catch (error) {
@@ -49,11 +52,7 @@ class AddNewTodo extends Component<{ router:any, http:any }> {
     }
   }
 
-  private renderOptions():JSX.Element[] {
-    const urgencys = [1, 2, 3, 4, 5]
-    return urgencys.map(item => <option key={item} value={item}>{item}</option>)
-  }
-
+  
   public render():JSX.Element {
     if(!this.state.showInput) {
       return (
@@ -66,8 +65,12 @@ class AddNewTodo extends Component<{ router:any, http:any }> {
         <div className="add-new-todo">
           <input className="input" type="text" placeholder="What do you need to do?" onChange={this.getInputValue.bind(this)}/>
           <select className="input select" onChange={this.getUrgency.bind(this)}>
-            <option value={1} >Urgency</option>
-            { this.renderOptions() }
+            <option>Urgency</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
           </select>
           <button className="button confirm" onClick={() => this.submitTodo()}>add</button>
           <button className="button cancel" onClick={() => this.toggleInput()}>cancel</button>

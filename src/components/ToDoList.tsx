@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { http } from '../utils/Http'
 import { connect } from 'react-redux';
-import { ToDo } from './ToDo'
+import ToDo from './ToDo'
+import { Todo as TodoInterface } from '../interfaces/ToDo';
+import Filter from './Filter';
 import AddNewTodo from './AddNewTodo'
 import { turnObjectIntoArray } from '../utils/utils'
 import { mapStateToProps } from '../store/containers/Todos'
@@ -30,10 +32,28 @@ class ToDoList extends Component<{ history:any }> {
     }
   }
 
+  visibilityFilter():Array<TodoInterface> {
+    const { todos, visibilityFilter }:any = this.props
+    switch(visibilityFilter) {
+      case 'SHOW_ALL': {
+        return todos
+      }
+      case 'SHOW_FINISHED': {
+        return todos.filter((item:TodoInterface) => item.isCompleted === true)
+      }
+      case 'SHOW_NOT_FINISHED': {
+        return todos.filter((item:TodoInterface) => item.isCompleted === false)
+      }
+      default:
+        return todos
+    }
+  }
+
   private renderList():JSX.Element[] {
-    const { todos }:any = this.props
+    const todos = this.visibilityFilter()
     return todos.map((todo:any) => 
       <ToDo 
+        router={this.props.history}
         key={todo.id}
         id={todo.id} 
         text={todo.text} 
@@ -47,6 +67,8 @@ class ToDoList extends Component<{ history:any }> {
 
   public render():JSX.Element {
     return (
+      <div style={{width: '40%'}}>
+      <Filter/>
       <div className="todo-list-container">
         <div className="control-buttons">
           <button className="button confirm reload" onClick={() => this.loadTodos()}>
@@ -57,6 +79,7 @@ class ToDoList extends Component<{ history:any }> {
         <div className="todo-list">
           { this.renderList() }
         </div>
+      </div>
       </div>
     )
   }

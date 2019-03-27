@@ -3,7 +3,7 @@ import { storage } from './Storage'
 
 class HttpClient {
   private sessionId:string = '';
-  private baseUrl:string = 'http://localhost:9000/api';
+  private baseUrl:string = 'http://localhost:9000/api' // Apiary end-point was thowing a cors error;
   private axios:any;
   
   constructor() {
@@ -53,9 +53,9 @@ class HttpClient {
     }
   }
 
-  public async put(endpoint:string, id:string, data:object) {
+  public async patch(endpoint:string, id:string, data:object) {
     try {
-      const response = await this.axios.put(`${endpoint}/${id}`, data)
+      const response = await this.axios.patch(`${endpoint}/${id}`, data)
       return response.data
     } catch (error) {
       throw error

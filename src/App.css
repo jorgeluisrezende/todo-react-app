@@ -55,12 +55,40 @@
   color: white;
   box-shadow: 0 1px 0 #9e3629;
 }
+
+.urgency {
+  position: relative;
+  width: 13px;
+  border-radius: 4px;
+  height: 13px;
+  right: -3px;
+}
+.urgency-1{
+  background: #54d34e;
+}
+.urgency-2{
+  background: #c0ec35;
+}
+.urgency-3{
+  background: #fcf042;
+}
+.urgency-4{
+  background: #f05938;
+}
+.urgency-5{
+  background: #ef4937;
+}
+
 /* filter */
 .filter-container {
   display: flex;
   align-items: center;
   width: 42%;
   margin-bottom: 10px;
+}
+.filter-label {
+  color: #fff;
+  margin-right: 10px;
 }
 
 /* add new todo */
@@ -88,7 +116,7 @@
 }
 .todo-list-container {
   background: rgb(228, 227, 227);
-  width: 40%;
+  width: 100%;
   height: 300px;
   padding: 1%;
   border-radius: 4px;
@@ -128,8 +156,13 @@
   padding: 5px;
   margin-bottom: 5px;
 }
+.todo-container{
+  display: flex;
+  align-items: center;
+}
 .todo-text {
   user-select: none;
+  cursor: text;
 }
 .todo-completed {
   color: lightgray;

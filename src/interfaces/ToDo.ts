@@ -3,6 +3,7 @@ export interface Todo {
   text:string,
   isCompleted:boolean,
   urgency:number,
+  router:any,
   created:Date,
   updated:Date
 }
